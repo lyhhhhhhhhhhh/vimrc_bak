@@ -1,0 +1,203 @@
+set nocompatible              " be iMproved, required
+filetype plugin on                  " required
+set number
+
+" 解决插入模式下delete/backspce键失效问题
+set backspace=2
+
+" 定义快捷键的前缀，即<Leader>
+let mapleader=";"
+
+" 依次遍历子窗口
+nnoremap nw <C-W><C-W>
+" 跳转至右方的窗口
+nnoremap <Leader>lw <C-W>l
+" 跳转至左方的窗口
+nnoremap <Leader>hw <C-W>h
+" 跳转至上方的子窗口
+nnoremap <Leader>kw <C-W>k
+" 跳转至下方的子窗口
+nnoremap <Leader>jw <C-W>j
+
+" open search while typing
+set incsearch
+" ignore high-case or low-case while seaching
+set ignorecase
+" highlight the match result when searching.
+set hlsearch
+
+" vim 自身命令行模式智能补全
+set wildmenu
+
+" set the colorscheme of vim
+set background=dark
+"colorscheme solarized
+colorscheme molokai
+
+" 自适应不同语言的智能缩进
+filetype indent on
+" 将制表符扩展为空格
+set expandtab
+" 设置编辑时制表符占用空格数
+set tabstop=4
+" 设置格式化时制表符占用空格数
+set shiftwidth=4
+" 让 vim 把连续数量的空格视为一个制表符
+set softtabstop=4
+
+" highlight the line which the cursor now stay.
+set cursorline
+highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+
+syntax enable
+call plug#begin('~/.vim/plugged')
+Plug 'fholgado/minibufexpl.vim'
+Plug 'preservim/nerdtree'
+Plug 'majutsushi/tagbar'
+Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
+Plug 'preservim/nerdcommenter'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'Lokaltog/vim-powerline'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'kshenoy/vim-signature'
+Plug 'airblade/vim-gitgutter'
+Plug 'derekwyatt/vim-fswitch'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+call plug#end()
+
+" ===================== set ultisnips =======================
+let g:UltiSnipsSnippetDirectories=["Ultisnips"]
+" Trigger configuration. You need to change this to something else than <tab> if you use https://github.com/Valloric/YouCompleteMe.
+" UltiSnips 的 tab 键与 YCM 冲突，重新设定
+let g:UltiSnipsExpandTrigger="<leader><tab>"
+let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
+let g:UltiSnipsJumpBackwardTrigger="<leader><s-tab>"
+
+" ===================== set tagbar(based ctags) =======================
+" 设置 tagbar 子窗口的位置出现在主编辑区的左边 
+let tagbar_right=1 
+" 设置显示／隐藏标签列表子窗口的快捷键。速记：identifier list by tag
+nnoremap <Leader>tb :TagbarToggle<CR> 
+" 设置标签子窗口的宽度 
+let tagbar_width=32 
+" tagbar 子窗口中不显示冗余帮助信息 
+let g:tagbar_compact=1
+" 设置 ctags 对哪些代码标识符生成标签
+let g:tagbar_type_cpp = {
+    \ 'kinds' : [
+         \ 'c:classes:0:1',
+         \ 'd:macros:0:1',
+         \ 'e:enumerators:0:0', 
+         \ 'f:functions:0:1',
+         \ 'g:enumeration:0:1',
+         \ 'l:local:0:1',
+         \ 'm:members:0:1',
+         \ 'n:namespaces:0:1',
+         \ 'p:functions_prototypes:0:1',
+         \ 's:structs:0:1',
+         \ 't:typedefs:0:1',
+         \ 'u:unions:0:1',
+         \ 'v:global:0:1',
+         \ 'x:external:0:1'
+     \ ],
+     \ 'sro'        : '::',
+     \ 'kind2scope' : {
+         \ 'g' : 'enum',
+         \ 'n' : 'namespace',
+         \ 'c' : 'class',
+         \ 's' : 'struct',
+         \ 'u' : 'union'
+     \ },
+     \ 'scope2kind' : {
+         \ 'enum'      : 'g',
+         \ 'namespace' : 'n',
+         \ 'class'     : 'c',
+         \ 'struct'    : 's',
+         \ 'union'     : 'u'
+     \ }
+\ }
+
+" ===================== set vim-cpp-enhanced_highliting =======================
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_concepts_highlight = 1 " This will highlight the keywords concept and requires as well as all named requirements 
+let g:cpp_no_function_highlight = 1
+let g:cpp_class_scope_highlight = 1
+
+" ===================== set vim-signature =======================
+let g:SignatureMap = {
+        \ 'Leader'             :  "m",
+        \ 'PlaceNextMark'      :  "m,",
+        \ 'ToggleMarkAtLine'   :  "m.",
+        \ 'PurgeMarksAtLine'   :  "m-",
+        \ 'DeleteMark'         :  "dm",
+        \ 'PurgeMarks'         :  "mda",
+        \ 'PurgeMarkers'       :  "m<BS>",
+        \ 'GotoNextLineAlpha'  :  "']",
+        \ 'GotoPrevLineAlpha'  :  "'[",
+        \ 'GotoNextSpotAlpha'  :  "`]",
+        \ 'GotoPrevSpotAlpha'  :  "`[",
+        \ 'GotoNextLineByPos'  :  "]'",
+        \ 'GotoPrevLineByPos'  :  "['",
+        \ 'GotoNextSpotByPos'  :  "mn",
+        \ 'GotoPrevSpotByPos'  :  "mp",
+        \ 'GotoNextMarker'     :  "[+",
+        \ 'GotoPrevMarker'     :  "[-",
+        \ 'GotoNextMarkerAny'  :  "]=",
+        \ 'GotoPrevMarkerAny'  :  "[=",
+        \ 'ListLocalMarks'     :  "ms",
+        \ 'ListLocalMarkers'   :  "m?"
+        \ }
+
+
+" ===================== set vim-intend-guides =======================
+" 随vim 自启动
+let g:indent_guides_enable_on_vim_startup=1
+" 从第二层开始可视化显示缩进
+let g:indent_guides_start_level=2
+" 色块宽度
+let g:indent_guides_guide_size=1
+
+" ===================== set YCM ========================
+nnoremap <Leader>gdf :YcmCompleter GoToDefinition<CR>
+nnoremap <Leader>gdc :YcmCompleter GoToDeclaration<CR>
+nnoremap <Leader>gi :YcmCompleter GoToInclude<CR>
+set completeopt-=preview
+
+" ===================== set NERDTree ========================
+" 随vim自动打开
+"autocmd vimenter * NERDTree
+" 只剩下Nerdtree时退出vim
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" Ctrl-n来开关NERDTree
+map <C-n> :NERDTreeToggle<CR>
+" 删除文件时自动删除文件对应 buffer
+let NERDTreeAutoDeleteBuffer=1
+
+" use <leader>sw to switch between *.h and *.cpp
+nmap <silent> <Leader>sw :FSHere<CR>
+
+" set the front
+set guifont=YaHei\ Consolas\ Hybrid\ 1.12
+
+" 设置状态栏主题风格
+let g:Powerline_colorscheme='solarized256'
+" 总是显示状态栏
+set laststatus=2
+
+" 启用:Man命令查看各类man信息
+source $VIMRUNTIME/ftplugin/man.vim
+" 定义:Man命令查看各类man信息的快捷键
+nmap <Leader>man :Man 3 <cword><CR>
+
+" 基于缩进或语法进行代码折叠
+set foldmethod=indent
+"set foldmethod=syntax
+" 启动 vim 时关闭折叠代码
+set nofoldenable
+
+" 配置实时生效
+autocmd BufWritePost $MYVIMRC source $MYVIMRC
